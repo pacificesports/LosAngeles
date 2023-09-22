@@ -2,10 +2,10 @@ package controller
 
 import (
 	"context"
-	"fremont/config"
-	"fremont/service"
-	"fremont/utils"
 	"log"
+	"losangeles/config"
+	"losangeles/service"
+	"losangeles/utils"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -13,6 +13,13 @@ import (
 
 func InitializeRoutes(router *gin.Engine) {
 	router.GET("/"+strings.ToLower(config.Service.Name)+"/ping", Ping)
+	router.GET("/tournaments", GetAllTournaments)
+	router.GET("/tournaments/:id", GetTournamentByID)
+	router.POST("/tournaments", CreateTournament)
+	router.GET("/tournaments/:id/teams", GetAllTeamsForTournament)
+	router.GET("/tournaments/:id/teams/:teamID", GetTeamForTournament)
+	router.POST("/tournaments/:id/teams/:teamID", SetTeamForTournament)
+	router.DELETE("/tournaments/:id/teams/:teamID", RemoveTeamFromTournament)
 }
 
 func RequestLogger() gin.HandlerFunc {

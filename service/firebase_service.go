@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 	"encoding/base64"
-	"fremont/config"
-	"fremont/utils"
+	"losangeles/config"
+	"losangeles/utils"
 	"time"
 
 	firebase "firebase.google.com/go/v4"

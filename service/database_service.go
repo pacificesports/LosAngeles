@@ -2,8 +2,9 @@ package service
 
 import (
 	"fmt"
-	"fremont/config"
-	"fremont/utils"
+	"losangeles/config"
+	"losangeles/model"
+	"losangeles/utils"
 	"time"
 
 	"gorm.io/driver/postgres"
@@ -28,7 +29,7 @@ func InitializeDB() {
 		}
 	} else {
 		utils.SugarLogger.Infoln("Connected to postgres database")
-		db.AutoMigrate()
+		db.AutoMigrate(&model.Tournament{}, &model.TournamentTeam{})
 		utils.SugarLogger.Infoln("AutoMigration complete")
 		DB = db
 	}

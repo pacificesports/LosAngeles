@@ -3,8 +3,9 @@ package service
 import (
 	"bytes"
 	"encoding/json"
-	"fremont/config"
-	"fremont/utils"
+	"losangeles/config"
+	"losangeles/model"
+	"losangeles/utils"
 	"net/http"
 	"os"
 	"strconv"
@@ -53,6 +54,7 @@ func RegisterRincon() {
 		}
 		utils.SugarLogger.Infoln("Registered service with Rincon! Service ID: " + strconv.Itoa(config.Service.ID))
 		RegisterRinconRoute("/" + strings.ToLower(config.Service.Name))
+		RegisterRinconRoute("/tournaments")
 	}
 }
 
@@ -66,4 +68,23 @@ func RegisterRinconRoute(route string) {
 	if err != nil {
 	}
 	utils.SugarLogger.Infoln("Registered route " + route)
+}
+
+func MatchRoute(route string, requestID string) model.Service {
+	var service model.Service
+	queryRoute := strings.ReplaceAll(route, "/", "<->")
+	rinconClient := http.Client{}
+	req, _ := http.NewRequest("GET", rinconHost+"/routes/match/"+queryRoute, nil)
+	req.Header.Set("Request-ID", requestID)
+	req.Header.Add("Content-Type", "application/json")
+	res, err := rinconClient.Do(req)
+	if err != nil {
+		utils.SugarLogger.Errorln(err.Error())
+		return service
+	}
+	defer res.Body.Close()
+	if res.StatusCode == 200 {
+		json.NewDecoder(res.Body).Decode(&service)
+	}
+	return service
 }

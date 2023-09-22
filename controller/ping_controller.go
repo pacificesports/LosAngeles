@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"fremont/config"
+	"losangeles/config"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
