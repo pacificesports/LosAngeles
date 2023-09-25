@@ -20,6 +20,7 @@ func InitializeRoutes(router *gin.Engine) {
 	router.GET("/tournaments/:id/teams/:teamID", GetTeamForTournament)
 	router.POST("/tournaments/:id/teams/:teamID", SetTeamForTournament)
 	router.DELETE("/tournaments/:id/teams/:teamID", RemoveTeamFromTournament)
+	router.GET("/teams/tournaments/:teamID", GetTournamentsForTeam)
 }
 
 func RequestLogger() gin.HandlerFunc {

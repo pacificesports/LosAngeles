@@ -45,3 +45,8 @@ func RemoveTeamFromTournament(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "Team removed from tournament"})
 }
+
+func GetTournamentsForTeam(c *gin.Context) {
+	result := service.GetTournamentsForTeam(c.Param("teamID"))
+	c.JSON(http.StatusOK, result)
+}

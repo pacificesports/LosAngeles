@@ -48,6 +48,19 @@ func RemoveTeamFromTournament(tournamentID string, teamID string) error {
 	return nil
 }
 
+func GetTournamentsForTeam(teamID string) []model.Tournament {
+	var tournamentTeams []model.TournamentTeam
+	var tournaments []model.Tournament
+	result := DB.Where("team_id = ?", teamID).Find(&tournamentTeams)
+	if result.Error != nil {
+		utils.SugarLogger.Errorln(result.Error.Error())
+	}
+	for i := range tournamentTeams {
+		tournaments = append(tournaments, GetTournamentByID(tournamentTeams[i].TournamentID))
+	}
+	return tournaments
+}
+
 func FetchTeam(teamID string) json.RawMessage {
 	var responseJson json.RawMessage = []byte("{}")
 	mappedService := MatchRoute("teams", "-")
