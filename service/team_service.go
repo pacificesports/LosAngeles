@@ -50,7 +50,7 @@ func RemoveTeamFromTournament(tournamentID string, teamID string) error {
 
 func GetTournamentsForTeam(teamID string) []model.Tournament {
 	var tournamentTeams []model.TournamentTeam
-	var tournaments []model.Tournament
+	tournaments := make([]model.Tournament, 0)
 	result := DB.Where("team_id = ?", teamID).Find(&tournamentTeams)
 	if result.Error != nil {
 		utils.SugarLogger.Errorln(result.Error.Error())
